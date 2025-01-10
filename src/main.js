@@ -48,30 +48,53 @@ async function loadPoseNet() {
   console.log('PoseNet model loaded!');
 }
 loadPoseNet();
+let lastPoseEstimationTime = 0; // Track the last time pose estimation was run
+const debounceInterval = 1000; // 1 second debounce interval
 
-// Perform pose estimation on video frame
 async function estimatePose() {
+  const currentTime = Date.now();
+  if (currentTime - lastPoseEstimationTime < debounceInterval) {
+    // If the last pose estimation was less than 1 second ago, skip this call
+    requestAnimationFrame(estimatePose);
+    return;
+  }
+
+  lastPoseEstimationTime = currentTime; // Update last run time
+
   if (net && video.readyState === 4) {
     // Estimate pose from the video
     const pose = await net.estimateSinglePose(video, {
       flipHorizontal: false,
     });
     const minScoreThreshold = 0.3;  // Set a lower threshold value
-
-// Filter keypoints based on the minimum score threshold
     const filteredKeypoints = pose.keypoints.filter(kp => kp.score >= minScoreThreshold);
-    const allKeypoints = pose.keypoints.filter(kp => kp.score >= minScoreThreshold);
 
     // Use pose data to perform actions, e.g., move the model based on detected pose
     console.log(pose);
+    console.log(model);
 
-    // Example: Move the model based on the position of the left wrist (index 9)
-    if (pose.keypoints[9].score > 0.5) {  // If the left wrist is detected with a confidence score above 0.5
-      model.position.x = pose.keypoints[9].position.x / window.innerWidth * 10 - 5; // Map to 3D space
+    // Example: Map keypoints to 3D model bones
+    if (model) {
+      const bones = model.getObjectByName('Armature')?.children; // Assuming 'Armature' is the skeleton's root
+      if (!bones) return;
+
+      // Iterate through filtered keypoints and update corresponding bones
+      filteredKeypoints.forEach(keypoint => {
+        const bone = bones?.find(bone => bone.name.toLowerCase() === keypoint.part.toLowerCase());
+        console.error(bone);
+
+        if (bone && keypoint.score > 0.5) {
+          // Map 2D position to 3D (assuming you want a 1:1 scale in this example)
+          bone.position.x = keypoint.position.x / window.innerWidth * 10 - 5;  // Map to 3D space
+          bone.position.y = -keypoint.position.y / window.innerHeight * 10 + 5; // Invert Y for 3D space
+          bone.position.z = 0; // You can map this as needed
+        }
+      });
     }
-  }
 
-  requestAnimationFrame(estimatePose); // Continuously estimate pose
+    // Request next animation frame for continuous pose estimation
+    requestAnimationFrame(estimatePose);
+  }
 }
 
 // Wait for user interaction to unmute video
@@ -86,8 +109,8 @@ video.play();
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+  estimatePose();
 }
 animate();
 
 // Start pose estimation
-estimatePose();
