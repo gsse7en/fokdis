@@ -70,18 +70,16 @@ async function estimatePose() {
     const filteredKeypoints = pose.keypoints.filter(kp => kp.score >= minScoreThreshold);
 
     // Use pose data to perform actions, e.g., move the model based on detected pose
-    console.log(pose);
-    console.log(model);
+    
 
     // Example: Map keypoints to 3D model bones
     if (model) {
-      const bones = model.getObjectByName('Armature')?.children; // Assuming 'Armature' is the skeleton's root
+      const bones = model.getObjectByName('Armature')?.children; 
       if (!bones) return;
 
       // Iterate through filtered keypoints and update corresponding bones
       filteredKeypoints.forEach(keypoint => {
-        const bone = bones?.find(bone => bone.name.toLowerCase() === keypoint.part.toLowerCase());
-        console.error(bone);
+        const bone = bones.find(bone => bone.name.toLowerCase() === keypoint.part.toLowerCase());
 
         if (bone && keypoint.score > 0.5) {
           // Map 2D position to 3D (assuming you want a 1:1 scale in this example)
