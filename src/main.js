@@ -27,14 +27,15 @@ plane.rotateZ(99);
 
 // Load GLB model
 const loader = new GLTFLoader();
+let model;
 loader.load('./model.glb', function (gltf) {
-  const model = gltf.scene;
-  model.scale.set(0.5, 0.5, 0.5); // Adjust the scale as needed
-  model.position.set(0, -55, -50); // Position the model in front of the camera
+  model = gltf.scene;
+  model.scale.set(0.5, 0.5, 0.5); // Adjust the model size
+  model.position.set(0, -55, -50); // Initial position of the model
   scene.add(model);
 });
 
-// Camera position
+// Camera setup
 camera.position.z = 3;
 
 // Wait for a user interaction to start playing and unmute the video

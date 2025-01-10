@@ -1,7 +1,11 @@
 {
   "dependencies": {
     "@mediapipe/pose": "^0.5.1675469404",
-    "three": "^0.172.0"
+    "@tensorflow-models/posenet": "^2.2.2",
+    "@tensorflow/tfjs": "^4.22.0",
+    "dat.gui": "^0.7.9",
+    "three": "^0.172.0",
+    "webcam-easy": "^1.1.1"
   },
   "devDependencies": {
     "vite": "^6.0.7"
