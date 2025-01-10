@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mediapipe/pose": "^0.5.1675469404",
+    "three": "^0.172.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7"
+  }
+}

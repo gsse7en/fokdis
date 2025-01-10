@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Model Viewer</title>
+  </head>
+  <body>
+    <!-- Create a div for your Three.js scene -->
+    <div id="threejs-container"></div>
+
+    <!-- Add a video element for background or overlay -->
+    <video id="video" autoplay playsinline loop style="display:none;">
+      <source src="video.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Link to your Vite build (this will be generated automatically when you run Vite) -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
