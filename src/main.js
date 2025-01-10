@@ -12,9 +12,7 @@ document.body.appendChild(renderer.domElement);
 const video = document.createElement('video');
 video.src = './video.mp4'; // Path to your video file
 video.loop = true;
-video.muted = true;
-video.play();
-
+video.muted = true; // Initially muted
 const videoTexture = new THREE.VideoTexture(video);
 
 // Create a large plane with the video texture
@@ -24,19 +22,27 @@ const plane = new THREE.Mesh(geometry, material);
 scene.add(plane);
 
 plane.position.set(0, 0, -54); // Position the plane as the background
-plane.scale.set(5, 10, 5); 
-plane.rotateZ(99); 
+plane.scale.set(5, 10, 5);
+plane.rotateZ(99);
+
 // Load GLB model
 const loader = new GLTFLoader();
 loader.load('./model.glb', function (gltf) {
   const model = gltf.scene;
   model.scale.set(0.5, 0.5, 0.5); // Adjust the scale as needed
-  model.position.set(0, -55, -50 );   // Position the model in front of the camera
+  model.position.set(0, -55, -50); // Position the model in front of the camera
   scene.add(model);
 });
 
 // Camera position
 camera.position.z = 3;
+
+// Wait for a user interaction to start playing and unmute the video
+document.body.addEventListener('click', () => {
+  video.muted = false; // Unmute the video after user interaction
+});
+video.play();
+
 
 // Animate the scene
 function animate() {
