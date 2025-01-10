@@ -33,8 +33,8 @@ const loader = new GLTFLoader();
 let model;
 loader.load('./model.glb', function (gltf) {
   model = gltf.scene;
-  model.scale.set(0.5, 0.5, 0.5); // Adjust the model size
-  model.position.set(0, -55, -53); // Initial position of the model
+  model.scale.set(5.5, 2.25, 22.25); // Adjust the model size
+  model.position.set(0, -1, -5); // Initial position of the model
   scene.add(model);
 });
 
