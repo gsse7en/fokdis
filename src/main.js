@@ -31,7 +31,7 @@ const loader = new GLTFLoader();
 loader.load('./model.glb', function (gltf) {
   const model = gltf.scene;
   model.scale.set(0.5, 0.5, 0.5); // Adjust the scale as needed
-  model.position.set(0, -44, -50 );   // Position the model in front of the camera
+  model.position.set(0, -55, -50 );   // Position the model in front of the camera
   scene.add(model);
 });
 
