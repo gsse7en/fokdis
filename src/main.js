@@ -27,6 +27,9 @@ scene.add(plane);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft light
 scene.add(ambientLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7.5);
+scene.add(directionalLight);
 
 plane.position.set(0, 0, -54); // Position the plane as the background
 plane.scale.set(5, 10, 5);
